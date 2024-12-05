@@ -18,10 +18,13 @@
             background-color: #6200ea;
             color: white;
             padding: 1rem;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
@@ -43,13 +46,16 @@
 
         main {
             padding: 2rem;
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
         }
 
         h2 {
             text-align: center;
             color: #6200ea;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            animation: slideIn 1s ease-out;
         }
 
         .page-buttons {
@@ -58,6 +64,7 @@
             gap: 1rem;
             justify-content: center;
             margin-bottom: 2rem;
+            animation: fadeIn 2s ease-in-out;
         }
 
         .page-buttons a {
@@ -76,9 +83,34 @@
             transform: scale(1.05);
         }
 
+        .btn-add {
+            display: inline-block;
+            margin-left: 2rem;
+            padding: 1rem 2rem;
+            background-color: #6200ea;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background-color: #3700b3;
+            transform: scale(1.1);
+        }
+
+        .data-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
         ul {
             list-style: none;
             padding: 0;
+            margin-top: 2rem;
         }
 
         ul li {
@@ -92,6 +124,7 @@
             align-items: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 1s ease-out;
         }
 
         ul li:hover {
@@ -107,53 +140,60 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            /* General styling for the buttons container */
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive styling for small screens */
+        @media (max-width: 600px) {
             .page-buttons {
-                display: flex; /* Aligns buttons horizontally */
-                justify-content: center; /* Centers the buttons */
-                gap: 1rem; /* Adds space between buttons */
-                margin: 2rem 0; /* Adds space above and below the button group */
+                flex-direction: column;
+                align-items: center;
             }
 
-            /* General button/link styles */
             .page-buttons a {
-                text-decoration: none; /* Removes underline from links */
-                padding: 0.75rem 1.5rem; /* Adds padding around text */
-                background-color: #6200ea; /* Sets background color */
-                color: white; /* Sets text color */
-                font-weight: bold; /* Makes text bold */
-                border-radius: 5px; /* Rounds button corners */
-                transition: background-color 0.3s, transform 0.3s; /* Smooth hover effects */
-                font-size: 1rem; /* Adjusts text size */
+                width: 100%;
+                text-align: center;
             }
 
-            /* Hover effect for buttons */
-            .page-buttons a:hover {
-                background-color: #3700b3; /* Darkens background on hover */
-                transform: scale(1.05); /* Slightly enlarges button on hover */
+            .data-section {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            /* Responsive styling for small screens */
-            @media (max-width: 600px) {
-                .page-buttons {
-                    flex-direction: column; /* Stacks buttons vertically */
-                    align-items: center; /* Centers buttons */
-                }
-                
-                .page-buttons a {
-                    width: 100%; /* Buttons take full width */
-                    text-align: center; /* Centers text */
-                }
+            .btn-add {
+                margin-left: 0;
+                margin-top: 1rem;
             }
-
         }
     </style>
 </head>
 <body>
 <header>
-    <h1>Dashboard</h1>
     <nav>
-        <a href="/create">Create Data</a> | <a href="/logout">Logout</a>
+        <a href="/logout">Logout</a>
+        <h1>Dashboard</h1>
     </nav>
 </header>
 <main>
@@ -165,11 +205,14 @@
         <a href="/profile">Profile</a>
         <a href="/terms">Terms of Service</a>
     </div>
+    
     <h2>Your Data</h2>
-    <a href="/create" class="btn-add">+ Add New Data</a>
-    <ul id="data-list" class="animate-fade-in">
-        <!-- The server will inject user data here dynamically -->
-    </ul>
+    <div class="data-section">
+        <ul id="data-list">
+            <!-- The server will inject user data here dynamically -->
+        </ul>
+        <a href="/create" class="btn-add">+ Add New Data</a>
+    </div>
 </main>
 <footer>
     &copy; 2024 Your Website

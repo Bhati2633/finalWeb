@@ -203,7 +203,7 @@ app.get('/edit/:id', (req, res) => {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="/styles.css">
-                <title>Edit Data</title>
+                <title>Dashboard</title>
                 <style>
                     body {
                         font-family: Arial, sans-serif;
@@ -217,10 +217,13 @@ app.get('/edit/:id', (req, res) => {
                         background-color: #6200ea;
                         color: white;
                         padding: 1rem;
-                        text-align: center;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
                         position: sticky;
                         top: 0;
                         z-index: 1000;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                     }
 
                     header h1 {
@@ -228,51 +231,104 @@ app.get('/edit/:id', (req, res) => {
                         font-size: 2rem;
                     }
 
+                    header nav a {
+                        color: white;
+                        text-decoration: none;
+                        margin: 0 1rem;
+                        font-weight: bold;
+                        transition: color 0.3s ease;
+                    }
+
+                    header nav a:hover {
+                        color: #ffcc00;
+                    }
+
                     main {
                         padding: 2rem;
-                        max-width: 600px;
+                        max-width: 900px;
                         margin: auto;
                     }
 
-                    form {
-                        background: white;
-                        padding: 2rem;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                        animation: fadeIn 1s ease forwards;
-                        opacity: 0;
+                    h2 {
+                        text-align: center;
+                        color: #6200ea;
+                        font-size: 1.5rem;
+                        margin-bottom: 1rem;
+                        animation: slideIn 1s ease-out;
                     }
 
-                    label {
-                        display: block;
-                        margin-bottom: 0.5rem;
-                        font-weight: bold;
+                    .page-buttons {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 1rem;
+                        justify-content: center;
+                        margin-bottom: 2rem;
+                        animation: fadeIn 2s ease-in-out;
                     }
 
-                    textarea {
-                        width: 100%;
-                        height: 150px;
-                        padding: 0.5rem;
-                        border: 1px solid #ddd;
-                        border-radius: 4px;
-                        resize: none;
-                        font-size: 1rem;
-                    }
-
-                    button {
-                        background-color: #6200ea;
-                        color: white;
-                        border: none;
-                        border-radius: 4px;
+                    .page-buttons a {
+                        background-color: #ffcc00;
+                        color: #6200ea;
                         padding: 0.75rem 1.5rem;
                         font-size: 1rem;
-                        cursor: pointer;
+                        border-radius: 8px;
+                        text-decoration: none;
+                        font-weight: bold;
                         transition: background-color 0.3s ease, transform 0.3s ease;
                     }
 
-                    button:hover {
-                        background-color: #3700b3;
+                    .page-buttons a:hover {
+                        background-color: #e6b800;
                         transform: scale(1.05);
+                    }
+
+                    .btn-add {
+                        display: inline-block;
+                        margin-left: 2rem;
+                        padding: 1rem 2rem;
+                        background-color: #6200ea;
+                        color: white;
+                        border-radius: 8px;
+                        font-weight: bold;
+                        font-size: 1.2rem;
+                        transition: background-color 0.3s ease, transform 0.3s ease;
+                    }
+
+                    .btn-add:hover {
+                        background-color: #3700b3;
+                        transform: scale(1.1);
+                    }
+
+                    .data-section {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-top: 2rem;
+                    }
+
+                    ul {
+                        list-style: none;
+                        padding: 0;
+                        margin-top: 2rem;
+                    }
+
+                    ul li {
+                        background: white;
+                        border: 1px solid #ddd;
+                        margin-bottom: 1rem;
+                        padding: 1rem;
+                        border-radius: 8px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        animation: fadeIn 1s ease-out;
+                    }
+
+                    ul li:hover {
+                        transform: scale(1.02);
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
                     }
 
                     footer {
@@ -285,34 +341,85 @@ app.get('/edit/:id', (req, res) => {
                         width: 100%;
                     }
 
+                    /* Animations */
                     @keyframes fadeIn {
                         from {
                             opacity: 0;
-                            transform: translateY(10px);
+                            transform: translateY(20px);
                         }
                         to {
                             opacity: 1;
                             transform: translateY(0);
                         }
                     }
+
+                    @keyframes slideIn {
+                        from {
+                            opacity: 0;
+                            transform: translateX(-100px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateX(0);
+                        }
+                    }
+
+                    /* Responsive styling for small screens */
+                    @media (max-width: 600px) {
+                        .page-buttons {
+                            flex-direction: column;
+                            align-items: center;
+                        }
+
+                        .page-buttons a {
+                            width: 100%;
+                            text-align: center;
+                        }
+
+                        .data-section {
+                            flex-direction: column;
+                            align-items: flex-start;
+                        }
+
+                        .btn-add {
+                            margin-left: 0;
+                            margin-top: 1rem;
+                        }
+                    }
                 </style>
             </head>
             <body>
             <header>
-                <h1>Edit Data</h1>
+                <nav>
+                    <a href="/logout">Logout</a>
+                    <h1>Dashboard</h1>
+                </nav>
             </header>
             <main>
-                <form action="/edit/${id}" method="post">
-                    <label for="content">Edit Content:</label>
-                    <textarea id="content" name="content" required>${item.content}</textarea>
-                    <button type="submit">Update</button>
-                </form>
+                <h2>Quick Navigation</h2>
+                <div class="page-buttons">
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact Us</a>
+                    <a href="/faq">FAQ</a>
+                    <a href="/profile">Profile</a>
+                    <a href="/terms">Terms of Service</a>
+                </div>
+                
+                <h2>Your Data</h2>
+                <div class="data-section">
+                    <ul id="data-list">
+                        <!-- The server will inject user data here dynamically -->
+                    </ul>
+                    <a href="/create" class="btn-add">+ Add New Data</a>
+                </div>
             </main>
             <footer>
                 &copy; 2024 Your Website
             </footer>
             </body>
             </html>
+
+
         `);
     });
 });
@@ -341,6 +448,7 @@ app.post('/delete/:id', (req, res) => {
         res.redirect('/dashboard');
     });
 });
+
 app.get('/about', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'about.html'));
 });
